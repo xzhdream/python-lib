@@ -1,0 +1,30 @@
+import gc
+import sys
+import time
+
+
+class A:
+    def __init__(self):
+        '''初始化对象'''
+        print('object born id:%s' % str(hex(id(self))))
+
+def func(c):
+    print('obejct refcount is: ', sys.getrefcount(c))  # getrefcount()方法用于返回对象的引用计数
+
+
+def f3():
+    '''循环引用'''
+    while True:
+        c1=A()
+        c2=A()
+        c1.t=c2
+        c2.t=c1
+        del c1
+        del c2
+        #增加垃圾回收机制
+        print(gc.garbage)
+        print(gc.collect())
+        print(gc.garbage)
+        time.sleep(10)
+
+f3()
